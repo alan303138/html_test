@@ -1,0 +1,106 @@
+
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+  <!-- Bootstrap core CSS -->
+  <link href="./assets/dist/css/bootstrap.css" rel="stylesheet">
+  <link href="signin.css" rel="stylesheet">
+    
+  
+ 
+</head>
+
+<script>
+ //code here
+    ///var temp=localStorage.getItem(name) ///獲取別的網頁的值
+    var script = document.createElement("script");
+    script.src = './callback.js';
+    const { query } = require('./callback')
+    //建立同步function
+    async function selectAllData(inmysql) {
+    let sql = inmysql
+    let dataList = await query( sql )//因剛開始就會執行整個<script>所以若callback.js中後端資料還沒拉出來會造成錯誤 所以使用await等待後端資料
+    return dataList
+    }
+
+    async function getdata(data,callback) {
+    let dataList = await selectAllData(data)
+    callback(dataList)
+    }
+
+
+</script>
+<!-- STYLE標籤裡為CSS 語法 -->
+<style>
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 56rem;
+
+      }
+    }
+
+    table tbody {
+      display: block;
+      height: 400px;
+      overflow-y: scroll;
+    }
+
+    table thead,
+    tbody tr {
+      display: table;
+      width: 100%;
+      table-layout: fixed;
+    }
+
+    table thead {
+      width: calc(100% - 1em)
+    }
+
+    table thead th {
+      background: #ccc;
+    }
+</style>
+
+
+    <body class="text-center"> <!--字置中-->
+        <!-- <div class="jumbotron mycustom-jumbotron" style="text-align:center;"> 主要是class""去讀取bootstrap.css中的樣式 這邊的style意思為字要置中" -->
+            <table class="table table-striped table-hover order-table " border="1" cellpadding="5">
+                <thead>
+                <tr>
+                    <th>
+                    <font size="5">犯罪紀錄
+                    </th>
+                    <th>
+                    <font size="5">地點
+                    </th>
+                    <th>
+                    <font size="5">時間
+                    </th>
+                    <th>
+                    <font size="5">被判日期
+                    </th>
+                    
+                </tr>
+                </thead>
+                <tbody id="insert">
+
+                </tbody>
+
+            </table>
+    
+    </body>
+  </html>

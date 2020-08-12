@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <link href="./assets/dist/css/bootstrap.css" rel="stylesheet">
+  <link href="signin.css" rel="stylesheet">
+</head>
+
+  <script>
+    const { query } = require('./callback')
+    async function selectAllData(inmysql) {
+      let sql = inmysql
+      let dataList = await query( sql )
+      return dataList
+    }
+    async function getdata(data,callback) {
+      let dataList = await selectAllData(data)
+      callback(dataList)
+    }
+
+    var controller=false
+    var result      //為全域變數 若在getdata裡面宣告則不是
+    getdata('SELECT * from login',function(rows){
+      result=rows;
+      console.log(result)
+    })
+
+    function check_password(){
+      
+      result.forEach(function(each_data){
+
+        if(each_data.username==document.getElementById("inputusername").value && each_data.password==document.getElementById("inputpassword").value)
+        {
+          controller=true
+          console.log('登入成功')
+          alert("登入成功")
+          //localStorage.setItem(name,values) ////跨網頁傳值
+          ///location.href='???.html'轉跳到別的頁面
+        }
+      })
+
+        if(controller==false)
+        { 
+          console.log('登入失敗')
+          alert("登入失敗")
+        }
+    }
+    // getdata('insert into login values("new","newccc")',function(rows){
+      
+    // })
+    // getdata('create table new_one(name varchar(50),mail varchar(50))',function(rows){
+      
+    // })
+
+    ////http://note.drx.tw/2012/12/mysql-syntax.html 參考語法
+
+    // 這是一個按下enter的範例 不用自己按"登入"
+    function when_over(){ 
+      var input = document.getElementById("inputpassword");
+      
+      input.addEventListener("keyup", function(event) {
+        if (event.keyCode === 13) {
+        event.preventDefault();
+        document.getElementById("btn").click();
+        }
+      });
+      
+    }
+   
+
+  </script>
+<!-- 當網頁元件渲染好才執行 onload 不然有可能id還沒出來在上面的script ocument.getElementById讀不到-->
+<body class="text-center" onload="when_over()">
+  <form class="form-signin">
+    
+    <h1 class="h3 mb-3 font-weight-bold" >登入系統</h1>
+    <label for="inputusername" class="sr-only">Username</label>
+    <input type="text" id="inputusername" class="form-control" placeholder="Username" >
+
+    <label for="inputpassword" class="sr-only">Password</label>
+    <input type="password" id="inputpassword" class="form-control" placeholder="Password" >
+    
+    <button class="btn btn-lg btn-primary btn-block" id="btn" type="button" onclick="check_password()">Sign in</button>
+  </form>
+  
+  
+</body>
+
+
+
+</html>
